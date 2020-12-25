@@ -19,9 +19,9 @@ class _HomePageState extends State<HomePage> {
           title: Center(child: Text('Translate')),
         ),
         body: SingleChildScrollView(
-          child: Column(children: <Widget>[
+          child: Column(
+            children: <Widget>[
             Translate(),
-
             ListRecommend()
           ]),
         ),
