@@ -18,8 +18,10 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Center(child: Text('Translate')),
         ),
-        body: SingleChildScrollView(
-          child: Column(
+        body: 
+        SingleChildScrollView(
+          child:
+           Column(
             children: <Widget>[
             Translate(),
             ListRecommend()

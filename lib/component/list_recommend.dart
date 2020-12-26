@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ListRecommend extends StatefulWidget {
   @override
@@ -6,214 +7,92 @@ class ListRecommend extends StatefulWidget {
 }
 
 class _ListRecommendState extends State<ListRecommend> {
+  dynamic data;
+  var listOfWidgets = [];
+  var listRecomend = [];
+
+  void getData() {
+    Firestore.instance
+        .collection("recommend")
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((f) => {
+            // print(f.data())
+            listOfWidgets.add(f.data())
+          });
+    }).then((value) => {
+              // print(listOfWidgets)
+              this.setState(() {
+                listRecomend = listOfWidgets;
+              })
+            });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Column(
-      children: [
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(0.0)),
-          ),
-          margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 0.5),
-          child: Container(
-            height: 80.0,
-            padding: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(
-                        "head in the clouds",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        "เพ้อฝัน,ไม่อยู่ในโลกแห่งความเป็นจริง",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+      // child: ListView.builder(
+      //   itemCount: listRecomend.length == 0 ? 0 : listRecomend.length,
+      //   shrinkWrap: true,
+      //   itemBuilder: (context, index) {
+      //     return ListTile(
+      //       title: Text('${listRecomend[index]['firstTran']}'),
+      //       subtitle:Text('${listRecomend[index]['secondTran']}')
+      //     );
+      //   },
+      // ),
+
+      child: ListView.builder(
+        itemCount: listRecomend.length == 0 ? 0 : listRecomend.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(0.0)),
             ),
-          ),
-        ),
-
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(0.0)),
-          ),
-          margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 0.5),
-          child: Container(
-            height: 80.0,
-            padding: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(
-                        "heart in your mouth",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
+            margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 0.5),
+            child: Container(
+              height: 80.0,
+              padding: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          '${listRecomend[index]['firstTran']}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        "อาการประหม่า ตื่นเต้น ทำตัวไม่ถูก",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                        Text(
+                          '${listRecomend[index]['secondTran']}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ),
-
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(0.0)),
-          ),
-          margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 0.5),
-          child: Container(
-            height: 80.0,
-            padding: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(
-                        "Bob’s your uncle.",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        "ง่ายๆ แค่นั้นเอง, เท่านั้นแหละ, เรียบร้อย",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(0.0)),
-          ),
-          margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 0.5),
-          child: Container(
-            height: 80.0,
-            padding: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(
-                        "a storm in a teacup",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        " เรื่องขี้ปะติ๋ว, เรื่องเล็กน้อย",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        )
-
-        ,
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(0.0)),
-          ),
-          margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 0.5),
-          child: Container(
-            height: 80.0,
-            padding: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(
-                        "After one’s own heart",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        "ได้ดังใจ สมใจคิด ถูกใจจริงๆ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        )
-
-
-      ],
-    ));
+          );
+        },
+      ),
+    );
   }
 }
